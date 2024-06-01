@@ -14,8 +14,59 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  name     String
-  email    String  @unique
-  password String
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  password    String
+  hobbies     UserHobby[]
+  experiences UserExperience[]
+  duration    Int
+  assets      Asset
+  courses     Course[]     @relation("UserCourses")
+  contact     Int
+}
+
+model Hobby {
+  id    String  @id @default(uuid())
+  name  String
+  users UserHobby[]
+}
+
+model Experience {
+  id    String  @id @default(uuid())
+  name  String
+  users UserExperience[]
+}
+
+model Course {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]   @relation("UserCourses")
+}
+
+enum Asset {
+  HIGH
+  MIDDLE
+  LOW
+}
+
+model UserHobby {
+  userId  String
+  hobbyId String
+  user    User  @relation(fields: [userId], references: [id])
+  hobby   Hobby @relation(fields: [hobbyId], references: [id])
+
+  @@id([userId, hobbyId])
+}
+
+model UserExperience {
+  userId       String
+  experienceId String
+  user         User       @relation(fields: [userId], references: [id])
+  experience   Experience @relation(fields: [experienceId], references: [id])
+
+  @@id([userId, experienceId])
 }
