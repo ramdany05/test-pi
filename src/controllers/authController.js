@@ -6,6 +6,7 @@ const { jwtSecret } = require('../config');
 
 exports.register = async (req, res) => {
     const { name, email, password } = req.body;
+
     try {
         const userExists = await prisma.user.findUnique({ where: { email } });
 
@@ -19,17 +20,39 @@ exports.register = async (req, res) => {
                 name,
                 email,
                 password: hashedPassword,
+                duration: null,
+                assets: null,
+                contact: null,
+                
+                // Empty all the Arry
+                hobbies: {
+                    connect: [],
+                },
+                experiences: {
+                    connect: [],
+                },
+                courses: {
+                    connect: [],
+                },
+                fundingFeeds: {
+                    connect: [],
+                },
+                businesses: {
+                    connect: [],
+                },
             },
         });
 
         res.status(201).json(newUser);
     } catch (error) {
+        console.error(error);
         res.status(500).send('Server error');
     }
 };
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
+
     try {
         const user = await prisma.user.findUnique({ where: { email } });
 
@@ -45,6 +68,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, jwtSecret, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
+        console.error(error);
         res.status(500).send('Server error');
     }
 };

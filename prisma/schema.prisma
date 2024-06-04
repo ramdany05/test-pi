@@ -12,14 +12,14 @@ model User {
   name           String
   email          String       @unique
   password       String
-  hobbies        UserHobby[]
-  experiences    UserExperience[]
-  duration       Int
-  assets         Asset
-  courses        UserCourse[]
-  contact        Int
-  fundingFeeds   FundingFeed[]
-  businesses     Business[]
+  hobbies        UserHobby[]  // Array bisa kosong
+  experiences    UserExperience[]  // Array bisa kosong
+  duration       Int?
+  assets         Asset?
+  courses        UserCourse[]  // Array bisa kosong
+  contact        Int?
+  fundingFeeds   FundingFeed[]  // Array bisa kosong
+  businesses     Business[]  // Array bisa kosong
 }
 
 model Hobby {
@@ -95,22 +95,22 @@ model UserCourse {
 }
 
 model Business {
-  id             String   @id @default(uuid())
-  userId         String
-  category       String
-  businessName   String
-  businessContact Int 
-  businessLocation String
-  user           User     @relation(fields: [userId], references: [id])
+  id              String   @id @default(uuid())
+  userId          String
+  category        String?
+  businessName    String?
+  businessContact Int?
+  businessLocation String?
+  user            User     @relation(fields: [userId], references: [id])
 }
 
 model FundingFeed {
-  id              String   @id @default(uuid())
-  userId          String
-  executiveSummary String
-  thumbnail       String
-  pitchDeck       String
-  amountRaised    Float
-  endDate         DateTime
-  user            User     @relation(fields: [userId], references: [id])
+  id               String   @id @default(uuid())
+  userId           String
+  executiveSummary String?
+  thumbnail        String?
+  pitchDeck        String?
+  amountRaised     Float?
+  endDate          DateTime?
+  user             User     @relation(fields: [userId], references: [id])
 }
