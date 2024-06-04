@@ -47,7 +47,7 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/api/auth/logout/{userId}": {
       "delete": {
         "summary": "Logout user",
         "tags": ["Auth"],
@@ -161,7 +161,7 @@
           }
       }
     },
-    "/api/feed/:id": {
+    "/api/feed/{id}": {
       "get": {
         "summary": "Retrieve a single feed by ID",
         "tags": ["Feed"],
