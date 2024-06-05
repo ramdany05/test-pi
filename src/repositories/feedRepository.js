@@ -7,13 +7,12 @@ class FeedRepository {
             console.log("Creating feed with data:", feedData); // Log input data
             return await prisma.fundingFeed.create({
                 data: {
-                    id: feedData.id, // Optional, Prisma can auto-generate if not provided
                     userId: feedData.userId,
                     executiveSummary: feedData.executiveSummary,
                     thumbnail: feedData.thumbnail,
                     pitchDeck: feedData.pitchDeck,
                     amountRaised: feedData.amountRaised,
-                    endDate: new Date(feedData.endDate) // Ensure proper Date object
+                    endDate: new Date(feedData.endDate)
                 }
             });
         } catch (error) {

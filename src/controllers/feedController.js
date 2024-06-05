@@ -1,5 +1,4 @@
 // src/controllers/feedController.js
-const { json } = require('express');
 const feedRepository = require('../repositories/feedRepository');
 
 exports.getFeed = async (req, res) => {
@@ -27,7 +26,7 @@ exports.getFeedById = async (req, res) => {
 
 exports.createFeed = async (req, res) => {
     const { id, userId, executiveSummary, thumbnail, pitchDeck, amountRaised, endDate } = req.body;
-    if (!userId || !executiveSummary || !thumbnail || !pitchDeck || !amountRaised || !endDate) {
+    if (!executiveSummary || !thumbnail || !pitchDeck || !amountRaised || !endDate) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -43,11 +42,15 @@ exports.createFeed = async (req, res) => {
 exports.deleteFeed = async (req, res) => {
     const feedId = req.params.id;
 
-    const feed = await feedRepository.findFeedById(feedId);
-    if (feed) {
-        feedRepository.deleteFeedById(feedId);
-        res.status(200).json({ message: "Feed delete succesfully" });
-    } else {
-        res.status(404).json({ message: "Feed not found" });
+    try {
+        const feed = await feedRepository.findFeedById(feedId);
+        if (feed) {
+            await feedRepository.deleteFeedById(feedId); // Tambahkan await disini
+            res.status(200).json({ message: "Feed deleted successfully" });
+        } else {
+            res.status(404).json({ message: "Feed not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred while deleting the feed", error: error.message });
     }
 };
