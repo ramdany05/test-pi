@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,8 +8,109 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  name     String
-  email    String  @unique
-  password String
+  id             String       @id @default(uuid())
+  name           String
+  email          String       @unique
+  password       String
+  hobbies        UserHobby[]  // Array bisa kosong
+  experiences    UserExperience[]  // Array bisa kosong
+  duration       Int?
+  assets         Asset?
+  courses        UserCourse[]  // Array bisa kosong
+  contact        Int?
+  fundingFeeds   FundingFeed[]  // Array bisa kosong
+  businesses     Business[]  // Array bisa kosong
+}
+
+model Hobby {
+  id    String  @id @default(uuid())
+  name  String
+  users UserHobby[]
+}
+
+model Experience {
+  id    String  @id @default(uuid())
+  name  String
+  users UserExperience[]
+}
+
+model Course {
+  id        String      @id @default(uuid())
+  title     String
+  category  String
+  materials Material[]
+  users     UserCourse[]
+}
+
+model Material {
+  id          String       @id @default(uuid())
+  title       String
+  type        MaterialType
+  content     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  thumbnail   String       // asumsi ini adalah URL
+  description String
+  category    String
+  courseId    String
+  course      Course       @relation(fields: [courseId], references: [id])
+}
+
+enum Asset {
+  HIGH
+  MIDDLE
+  LOW
+}
+
+enum MaterialType {
+  VIDEO
+  TEXT
+}
+
+model UserHobby {
+  userId  String
+  hobbyId String
+  user    User  @relation(fields: [userId], references: [id])
+  hobby   Hobby @relation(fields: [hobbyId], references: [id])
+
+  @@id([userId, hobbyId])
+}
+
+model UserExperience {
+  userId       String
+  experienceId String
+  user         User       @relation(fields: [userId], references: [id])
+  experience   Experience @relation(fields: [experienceId], references: [id])
+
+  @@id([userId, experienceId])
+}
+
+model UserCourse {
+  userId   String
+  courseId String
+  user     User   @relation(fields: [userId], references: [id])
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@id([userId, courseId])
+}
+
+model Business {
+  id              String   @id @default(uuid())
+  userId          String
+  category        String?
+  businessName    String?
+  businessContact Int?
+  businessLocation String?
+  user            User     @relation(fields: [userId], references: [id])
+}
+
+model FundingFeed {
+  id               String   @id @default(uuid())
+  userId           String
+  executiveSummary String?
+  thumbnail        String?
+  pitchDeck        String?
+  amountRaised     Float?
+  endDate          DateTime?
+  user             User     @relation(fields: [userId], references: [id])
 }
