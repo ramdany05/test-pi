@@ -12,14 +12,25 @@ model User {
   name           String
   email          String       @unique
   password       String
-  hobbies        UserHobby[]  // Array bisa kosong
-  experiences    UserExperience[]  // Array bisa kosong
+  hobbies        UserHobby[]  
+  experiences    UserExperience[]  
   duration       Int?
   assets         Asset?
-  courses        UserCourse[]  // Array bisa kosong
+  courses        UserCourse[]  
   contact        Int?
-  fundingFeeds   FundingFeed[]  // Array bisa kosong
-  businesses     Business[]  // Array bisa kosong
+  fundingFeeds   FundingFeed[]  
+  businesses     Business[]  
+  isVerified     Boolean @default(false)
+  verificationCode  VerificationCode[]       
+}
+
+model VerificationCode {
+  id          String     @id @default(uuid())
+  userId      String
+  code        String
+  createdAt   DateTime   @default(now())
+  expiresAt   DateTime
+  user        User       @relation(fields: [userId], references: [id])
 }
 
 model Hobby {
