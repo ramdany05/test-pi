@@ -7,12 +7,12 @@ class FeedRepository {
             console.log("Creating feed with data:", feedData); // Log input data
             return await prisma.fundingFeed.create({
                 data: {
-                    userId: feedData.userId,
                     executiveSummary: feedData.executiveSummary,
                     thumbnail: feedData.thumbnail,
                     pitchDeck: feedData.pitchDeck,
                     amountRaised: feedData.amountRaised,
-                    endDate: new Date(feedData.endDate)
+                    endDate: new Date(feedData.endDate),
+                    user: { connect: { id: feedData.userId } },
                 }
             });
         } catch (error) {
@@ -38,7 +38,28 @@ class FeedRepository {
                 }
             });
         } catch (error) {
-            console.log("Post not found: ", error);
+            console.log("Feed not found: ", error);
+            throw error;
+        }
+    }
+
+    async updateFeed(id, feedData) {
+        try {
+            return await prisma.fundingFeed.update({
+                where: {
+                    id: id,
+                },
+                data: {
+                    executiveSummary: feedData.executiveSummary,
+                    thumbnail: feedData.thumbnail,
+                    pitchDeck: feedData.pitchDeck,
+                    amountRaised: feedData.amountRaised,
+                    endDate: new Date(feedData.endDate),
+                    user: { connect: { id: feedData.userId } },
+                }
+            });
+        } catch (error) {
+            console.log("Error updating feed: ", error);
             throw error;
         }
     }
@@ -47,7 +68,7 @@ class FeedRepository {
         try {
             return await prisma.fundingFeed.delete({
                 where: {
-                    id: id
+                    id: id,
                 }
             });
         } catch (error) {
