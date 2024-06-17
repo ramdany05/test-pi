@@ -1,7 +1,12 @@
 const feedRepository = require('../repositories/feedRepository');
+const uploadfileToGCS = require('../services/gcsService.js');
+const upload = require('../middlewares/multerConfig.js');
 
 exports.createFeed = async (req, res) => {
-    const { executiveSummary, thumbnail, pitchDeck, amountRaised, endDate } = req.body;
+    const { executiveSummary, amountRaised, endDate } = req.body;
+    const thumbnail = req.files.thumbnail ? req.files.thumbnail[0] : null;
+    const pitchDeck = req.files.pitchDeck ? req.files.pitchDeck[0] : null;
+
     if (!executiveSummary || !thumbnail || !pitchDeck || !amountRaised || !endDate) {
         return res.status(400).json({
             status: 'error',
@@ -14,16 +19,19 @@ exports.createFeed = async (req, res) => {
         });
     }
 
-    const feedData = {
-        userId: req.user.id,
-        executiveSummary,
-        thumbnail,
-        pitchDeck,
-        amountRaised,
-        endDate
-    };
-
     try {
+        const thumbnailUrl = await uploadfileToGCS(thumbnail);
+        const pitchDeckUrl = await uploadfileToGCS(pitchDeck);
+
+        const feedData = {
+            userId: req.user.id,
+            executiveSummary,
+            thumbnail: thumbnailUrl,
+            pitchDeck: pitchDeckUrl,
+            amountRaised: parseFloat(amountRaised),
+            endDate: new Date(endDate)
+        };
+
         const newFeed = await feedRepository.createFeed(feedData);
         res.status(201).json({
             status: 'success',
@@ -43,6 +51,7 @@ exports.createFeed = async (req, res) => {
         });
     }
 };
+
 
 exports.getFeed = async (req, res) => {
     try {
