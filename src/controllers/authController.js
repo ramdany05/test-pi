@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { jwtSecret } = require('../config');
+const { jwtSecret } = require('../config/config');
 const sendVerificationEmail  = require('../services/emailServices');
 
 
