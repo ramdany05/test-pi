@@ -13,6 +13,12 @@ RUN npm install --production
 # Salin kode aplikasi Anda ke dalam direktori kerja
 COPY . .
 
+# Salin file kredensial Google Cloud ke dalam container
+COPY src/config/service-account.json src/config/service-account.json
+
+# Salin file .env ke dalam container
+COPY .env .env
+
 # Expose port yang digunakan oleh aplikasi Express
 EXPOSE ${PORT}
 EXPOSE 8080
