@@ -11,7 +11,7 @@ exports.createFeed = async (req, res) => {
         return res.status(400).json({
             status: 'error',
             message: 'Missing required fields',
-            data: null,
+            data: {},
             error: {
                 code: 'MISSING_FIELDS',
                 details: 'Some required fields are missing.'
@@ -43,7 +43,7 @@ exports.createFeed = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while creating feed',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -66,7 +66,7 @@ exports.getFeed = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while fetching feeds',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -90,7 +90,7 @@ exports.getFeedById = async (req, res) => {
             res.status(404).json({
                 status: 'error',
                 message: 'Feed not found',
-                data: null,
+                data: {},
                 error: {
                     code: 'NOT_FOUND',
                     details: 'The feed with the specified ID was not found.'
@@ -101,7 +101,7 @@ exports.getFeedById = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while fetching the feed',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -118,7 +118,7 @@ exports.updateFeed = async (req, res) => {
         return res.status(400).json({
             status: 'error',
             message: 'Missing required fields',
-            data: null,
+            data: {},
             error: {
                 code: 'MISSING_FIELDS',
                 details: 'Some required fields are missing.'
@@ -142,7 +142,7 @@ exports.updateFeed = async (req, res) => {
                 return res.status(403).json({
                     status: 'error',
                     message: 'You are not authorized to update this feed',
-                    data: null,
+                    data: {},
                     error: {
                         code: 'UNAUTHORIZED',
                         details: 'You can only update your own feeds.'
@@ -160,7 +160,7 @@ exports.updateFeed = async (req, res) => {
             res.status(404).json({
                 status: 'error',
                 message: 'Feed not found',
-                data: null,
+                data: {},
                 error: {
                     code: 'NOT_FOUND',
                     details: 'The feed with the specified ID was not found.'
@@ -171,7 +171,7 @@ exports.updateFeed = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while updating the feed',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -190,7 +190,7 @@ exports.deleteFeed = async (req, res) => {
                 return res.status(403).json({
                     status: 'error',
                     message: 'You are not authorized to delete this feed',
-                    data: null,
+                    data: {},
                     error: {
                         code: 'UNAUTHORIZED',
                         details: 'You can only delete your own feeds.'
@@ -201,14 +201,14 @@ exports.deleteFeed = async (req, res) => {
             res.status(200).json({
                 status: 'success',
                 message: 'Feed deleted successfully',
-                data: null,
+                data: {},
                 error: null
             });
         } else {
             res.status(404).json({
                 status: 'error',
                 message: 'Feed not found',
-                data: null,
+                data: {},
                 error: {
                     code: 'NOT_FOUND',
                     details: 'The feed with the specified ID was not found.'
@@ -219,7 +219,7 @@ exports.deleteFeed = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while deleting the feed',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message

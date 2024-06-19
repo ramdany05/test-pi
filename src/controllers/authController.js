@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
         return res.status(400).json({
             status: 'error',
             message: 'Email is required.',
-            data: null,
+            data: {},
             error: {
                 code: 'EMAIL_REQUIRED',
                 details: 'Please provide your email address.'
@@ -31,7 +31,7 @@ exports.register = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Email is already registered. Please use a different email.',
-                data: null,
+                data: {},
                 error: {
                     code: 'EMAIL_EXISTS',
                     details: `The email ${email} is already registered in the system.`
@@ -87,7 +87,7 @@ exports.register = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'Server error',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -104,7 +104,7 @@ exports.sendVerificationEmail = async (req, res) => {
         return res.status(400).json({
             status: 'error',
             message: 'Email is required.',
-            data: null,
+            data: {},
             error: {
                 code: 'EMAIL_REQUIRED',
                 details: 'Please provide your email address.'
@@ -119,7 +119,7 @@ exports.sendVerificationEmail = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'User not found.',
-                data: null,
+                data: {},
                 error: {
                     code: 'USER_NOT_FOUND',
                     details: 'No user found with the provided email address.'
@@ -131,7 +131,7 @@ exports.sendVerificationEmail = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Email is already verified.',
-                data: null,
+                data: {},
                 error: {
                     code: 'EMAIL_ALREADY_VERIFIED',
                     details: 'The email address is already verified.'
@@ -145,7 +145,7 @@ exports.sendVerificationEmail = async (req, res) => {
         res.status(200).json({
             status: 'success',
             message: 'Verification email sent successfully.',
-            data: null,
+            data: {},
             error: null
         });
     } catch (error) {
@@ -153,7 +153,7 @@ exports.sendVerificationEmail = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'Server error',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -171,7 +171,7 @@ exports.verifyEmail = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Verification code is required.',
-                data: null,
+                data: {},
                 error: {
                     code: 'VERIFICATION_CODE_REQUIRED',
                     details: 'Please provide a verification code.'
@@ -194,7 +194,7 @@ exports.verifyEmail = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Invalid verification code.',
-                data: null,
+                data: {},
                 error: {
                     code: 'INVALID_VERIFICATION_CODE',
                     details: 'The provided verification code is invalid.'
@@ -211,7 +211,7 @@ exports.verifyEmail = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Verification code has expired.',
-                data: null,
+                data: {},
                 error: {
                     code: 'EXPIRED_VERIFICATION_CODE',
                     details: 'The provided verification code has expired.'
@@ -233,7 +233,7 @@ exports.verifyEmail = async (req, res) => {
         res.status(200).json({
             status: 'success',
             message: 'Email verified successfully.',
-            data: null,
+            data: {},
             error: null
         });
     } catch (error) {
@@ -241,7 +241,7 @@ exports.verifyEmail = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'Server error',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -261,7 +261,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Invalid email or password',
-                data: null,
+                data: {},
                 error: {
                     code: 'INVALID_CREDENTIALS',
                     details: 'The email or password provided is incorrect.'
@@ -275,7 +275,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Invalid email or password',
-                data: null,
+                data: {},
                 error: {
                     code: 'INVALID_CREDENTIALS',
                     details: 'The email or password provided is incorrect.'
@@ -287,7 +287,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({
                 status: 'error',
                 message: 'Email not verified',
-                data: null,
+                data: {},
                 error: {
                     code: 'EMAIL_NOT_VERIFIED',
                     details: 'Please verify your email address before logging in.'
@@ -307,7 +307,7 @@ exports.login = async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'Server error',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
@@ -322,14 +322,14 @@ exports.logout = async (req, res) => {
         res.json({
             status: 'success',
             message: 'Logout successful',
-            data: null,
+            data: {},
             error: null
         });
     }catch (error) {
         res.status(500).json({
             status: 'error',
             message: 'Server error',
-            data: null,
+            data: {},
             error: {
                 code: 'INTERNAL_SERVER_ERROR',
                 details: error.message
