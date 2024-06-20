@@ -1,5 +1,5 @@
 # Gunakan node image yang cocok dengan versi Anda
-FROM node:21
+FROM node:21.4.0
 
 # Tentukan direktori kerja di dalam container
 WORKDIR /app
@@ -16,16 +16,9 @@ COPY . .
 # Salin file kredensial Google Cloud ke dalam container
 COPY src/config/service-account.json src/config/service-account.json
 
-# Salin file .env ke dalam container
-COPY .env .env
-
 # Expose port yang digunakan oleh aplikasi Express
 EXPOSE ${PORT}
 EXPOSE 8080
 
-# Salin skrip entry point ke dalam container
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Definisikan entry point
-ENTRYPOINT ["docker-entrypoint.sh"]
+# Jalankan perintah saat container dimulai menggunakan bash
+CMD /bin/bash -c 'if [ -n "${DATABASE_URL}" ]; then npx prisma generate && npx prisma migrate deploy --preview-feature; else echo "ENV_VARIABLE belum diset, prisma migrate tidak dijalankan."; fi && exec npm run start'

@@ -1,34 +1,133 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Controller function to handle GET request for fetching user information
-exports.getUsers = async(req, res) => {
+exports.getUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
-    res.status(200).json(users);
+    res.status(200).json({
+      status: "success",
+      message: "Users fetched successfully",
+      data: users,
+      error: { 
+        code: null, 
+        details: null 
+      },
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+      data: {},
+      error: { 
+        code: "INTERNAL_SERVER_ERROR", 
+        details: error.message 
+      },
+    });
   }
-}
+};
 
-// Controller function to handle PUT request for updating user information
-exports.updateUserById = async(req, res) => {
+exports.getUserById = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user) {
+      res.status(200).json({
+        status: "success",
+        message: "User fetched successfully",
+        data: user,
+        error: { 
+          code: null, 
+          details: null 
+        },
+      });
+    } else {
+      res.status(404).json({
+        status: "error",
+        message: "User not found",
+        data: {},
+        error: { 
+          code: "USER_NOT_FOUND", 
+          details: "User not found" 
+        },
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+      data: {},
+      error: { 
+        code: "INTERNAL_SERVER_ERROR", 
+        details: error.message 
+      },
+    });
+  }
+};
+
+exports.updateUserById = async (req, res) => {
   const userId = req.params.userId;
   const userData = req.body;
 
   try {
-    // Update user information in your database or source using Prisma's update method
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: userData,
     });
+    res.status(200).json({
+      status: "success",
+      message: "User information updated successfully",
+      data: updatedUser,
+      error: { 
+        code: null, 
+        details: null 
 
-    // Send successful response after updating user information
-    res.status(200).json({ message: "User information updated successfully", updatedUser });
+      },
+    });
   } catch (error) {
-    // Handle errors if any
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+      data: {},
+      error: { 
+        code: "INTERNAL_SERVER_ERROR", 
+        details: error.message },
+    });
   }
-}
+};
+
+exports.deleteUserById = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "User deleted successfully",
+      data: {},
+      error: { 
+        code: null, 
+        details: null 
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+      data: {},
+      error: {
+        code: "INTERNAL_SERVER_ERROR", 
+        details: error.message },
+    });
+  }
+};

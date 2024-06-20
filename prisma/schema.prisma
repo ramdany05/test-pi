@@ -19,18 +19,7 @@ model User {
   courses        UserCourse[]  
   contact        Int?
   fundingFeeds   FundingFeed[]  
-  businesses     Business[]  
-  isVerified     Boolean @default(false)
-  verificationCode  VerificationCode[]       
-}
-
-model VerificationCode {
-  id          String     @id @default(uuid())
-  userId      String
-  code        String
-  createdAt   DateTime   @default(now())
-  expiresAt   DateTime
-  user        User       @relation(fields: [userId], references: [id])
+  businesses     Business[]       
 }
 
 model Hobby {
