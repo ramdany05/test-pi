@@ -2,7 +2,7 @@ const { Storage } = require('@google-cloud/storage');
 const path = require('path');
 
 const storage = new Storage({
-    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIAL,
+    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
 
 const bucketName = 'feed_service';

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 class FeedRepository {
     async createFeed(feedData) {
         try {
-            console.log("Creating feed with data:", feedData); // Log input data
+            console.log("Creating feed with data:", feedData); 
             return await prisma.fundingFeed.create({
                 data: {
                     executiveSummary: feedData.executiveSummary,

@@ -1,0 +1,14 @@
+steps:
+    # build container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/test-share-project-424917/express-gcp', '.']
+    # push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/test-share-project-424917/express-gcp']
+    # Deploy Container Image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['run', 'deploy', 'express-gcp', '--image', 'gcr.io/test-share-project-424917/express-gcp', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+
+images:
+  - 'gcr.io/test-share-project-424917/express-gcp'
