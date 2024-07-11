@@ -8,7 +8,7 @@ steps:
     # Deploy Container Image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'express-gcp', '--image', 'gcr.io/test-share-project-424917/express-gcp', '--platform', 'managed', '--region', 'asia-southeast1', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'express-gcp', '--image', 'gcr.io/test-share-project-424917/express-gcp', '--platform', 'managed', '--region', 'asia-southeast2', '--allow-unauthenticated']
 
 images:
   - 'gcr.io/test-share-project-424917/express-gcp'
