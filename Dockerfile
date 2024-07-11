@@ -1,4 +1,4 @@
-# Gunakan node image yang cocok dengan versi Anda
+# Gunakan node image version
 FROM node:21.4.0
 
 # Tentukan direktori kerja di dalam container
